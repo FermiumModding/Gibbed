@@ -2,6 +2,7 @@ package fonnymunkey.gibbed.client.gib;
 
 import fonnymunkey.gibbed.Gibbed;
 import fonnymunkey.gibbed.client.RenderCaptureHandler;
+import fonnymunkey.gibbed.compat.azurelib.AzureLibCompat;
 import fonnymunkey.gibbed.compat.geckolib.GeckolibCompat;
 import fonnymunkey.gibbed.compat.lycanites.LycanitesCompat;
 import fonnymunkey.gibbed.compat.mobends.MobendsCompat;
@@ -96,7 +97,9 @@ public class GibGenerator {
 	@Nullable
 	public static ResourceLocation getEntityTexture(EntityLivingBase entity) {
 		Render<?> renderer = Minecraft.getMinecraft().getRenderManager().getEntityRenderObject(entity);
-		if(renderer instanceof RenderLivingBase || (ModLoadedUtil.isGeckolibLoaded() && GeckolibCompat.isRendererGeckolib(renderer))) {
+		if(renderer instanceof RenderLivingBase
+				|| (ModLoadedUtil.isGeckolibLoaded() && GeckolibCompat.isRendererGeckolib(renderer))
+				|| (ModLoadedUtil.isAzureLibLoaded() && AzureLibCompat.isRendererAzureLib(renderer))) {
 			return ((RenderInvoker)renderer).gibbed$invokeGetEntityTexture(entity);
 		}
 		return null;
@@ -118,6 +121,15 @@ public class GibGenerator {
 			if(!cachedGibs.containsKey(cacheKey)) {
 				Pair<Float,Float> ratios = getBranchRatios(entity);
 				cachedGibs.put(cacheKey, GeckolibCompat.generateGibs(cacheKey, ratios.left, ratios.right));
+			}
+			return cachedGibs.get(cacheKey);
+		}
+		else if(ModLoadedUtil.isAzureLibLoaded() && AzureLibCompat.isRendererAzureLib(entityRenderer)) {
+			Object cacheKey = AzureLibCompat.getGibCacheKey(entity, entityRenderer);
+			if(cacheKey == null) return Collections.emptyList();
+			if(!cachedGibs.containsKey(cacheKey)) {
+				Pair<Float,Float> ratios = getBranchRatios(entity);
+				cachedGibs.put(cacheKey, AzureLibCompat.generateGibs(cacheKey, ratios.left, ratios.right));
 			}
 			return cachedGibs.get(cacheKey);
 		}

@@ -44,6 +44,7 @@ dependencies {
     implementation fg.deobf("curse.maven:lycanitesmobs-${lycanitesmobs_version}")
     implementation fg.deobf("curse.maven:geckolib-${geckolib_version}")
     implementation fg.deobf(files("libs/BallisticBlood-0.0.76.jar"))
+    implementation fg.deobf("curse.maven:azurelib-${azurelib_version}")
 }
 
 mixin {

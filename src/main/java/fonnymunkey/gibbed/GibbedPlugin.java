@@ -15,6 +15,7 @@ public class GibbedPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.gibbed.lycanites.json", () -> FermiumRegistryAPI.isModPresent("lycanitesmobs"));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.gibbed.geckolib.json", () -> FermiumRegistryAPI.isModPresent("geckolib3"));
 		FermiumRegistryAPI.enqueueMixin(false, "mixins.gibbed.geckolib.vanilla.json", () -> FermiumRegistryAPI.isModPresent("geckolib3"));
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.gibbed.azurelib.json", () -> FermiumRegistryAPI.isModPresent("azurelib"));
 	}
 	
 	@Override
