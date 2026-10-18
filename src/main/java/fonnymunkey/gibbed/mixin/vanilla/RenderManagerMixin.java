@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import fonnymunkey.gibbed.client.RenderCaptureHandler;
 import fonnymunkey.gibbed.compat.ModLoadedUtil;
+import fonnymunkey.gibbed.compat.azurelib.AzureLibCompat;
 import fonnymunkey.gibbed.compat.geckolib.GeckolibCompat;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -26,11 +27,17 @@ public abstract class RenderManagerMixin {
 			if(ModLoadedUtil.isGeckolibLoaded() && GeckolibCompat.isRendererGeckolib(instance)) {
 				GeckolibCompat.beginRenderStateCapture((EntityLivingBase)entity);
 			}
+			if(ModLoadedUtil.isAzureLibLoaded() && AzureLibCompat.isRendererAzureLib(instance)) {
+				AzureLibCompat.beginRenderStateCapture((EntityLivingBase)entity, instance);
+			}
 		}
 		original.call(instance, entity, x, y, z, entityYaw, partialTicks);
 		if(entity instanceof EntityLivingBase && !entity.isEntityAlive()) {
 			if(ModLoadedUtil.isGeckolibLoaded() && GeckolibCompat.isRendererGeckolib(instance)) {
 				GeckolibCompat.endRenderStateCapture();
+			}
+			if(ModLoadedUtil.isAzureLibLoaded() && AzureLibCompat.isRendererAzureLib(instance)) {
+				AzureLibCompat.endRenderStateCapture();
 			}
 			RenderCaptureHandler.endBaseTextureCapture();
 			RenderCaptureHandler.endRenderStateCapture();

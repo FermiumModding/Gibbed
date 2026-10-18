@@ -5,6 +5,7 @@ import fonnymunkey.gibbed.client.gib.AbstractGib;
 import fonnymunkey.gibbed.client.gib.GibGenerator;
 import fonnymunkey.gibbed.client.particle.ParticleHandler;
 import fonnymunkey.gibbed.compat.ModLoadedUtil;
+import fonnymunkey.gibbed.compat.azurelib.AzureLibCompat;
 import fonnymunkey.gibbed.compat.geckolib.GeckolibCompat;
 import fonnymunkey.gibbed.config.ConfigHandler;
 import fonnymunkey.gibbed.util.Pair;
@@ -99,6 +100,7 @@ public class EventHandlerClient {
         if(event.phase != TickEvent.Phase.END) return;
         RenderCaptureHandler.clearCaptures();
         if(ModLoadedUtil.isGeckolibLoaded()) GeckolibCompat.clearCaptures();
+        if(ModLoadedUtil.isAzureLibLoaded()) AzureLibCompat.clearCaptures();
     }
     
     private static boolean createGibs(World world, EntityLivingBase entity, boolean explosion) {
