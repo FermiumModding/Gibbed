@@ -42,6 +42,7 @@ dependencies {
     implementation fg.deobf("curse.maven:mobends-${mobends_version}")
     implementation fg.deobf("curse.maven:llibrary-${llibrary_version}")
     implementation fg.deobf("curse.maven:lycanitesmobs-${lycanitesmobs_version}")
+    implementation fg.deobf("curse.maven:geckolib-${geckolib_version}")
     implementation fg.deobf(files("libs/BallisticBlood-0.0.76.jar"))
 }
 

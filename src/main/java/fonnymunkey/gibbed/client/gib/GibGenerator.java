@@ -2,6 +2,7 @@ package fonnymunkey.gibbed.client.gib;
 
 import fonnymunkey.gibbed.Gibbed;
 import fonnymunkey.gibbed.client.RenderCaptureHandler;
+import fonnymunkey.gibbed.compat.geckolib.GeckolibCompat;
 import fonnymunkey.gibbed.compat.lycanites.LycanitesCompat;
 import fonnymunkey.gibbed.compat.mobends.MobendsCompat;
 import fonnymunkey.gibbed.compat.ModLoadedUtil;
@@ -24,7 +25,7 @@ import java.util.*;
 
 public class GibGenerator {
 	public static final ResourceLocation GORE_TEXTURE = new ResourceLocation(Gibbed.MODID, "textures/gore.png");
-	private static final Map<RenderLivingBase<? extends EntityLivingBase>,List<AbstractGib>> cachedGibs = new HashMap<>();
+	private static final Map<Object,List<AbstractGib>> cachedGibs = new HashMap<>();
 	
 	public static void resetCache() {
 		cachedGibs.clear();
@@ -95,30 +96,38 @@ public class GibGenerator {
 	@Nullable
 	public static ResourceLocation getEntityTexture(EntityLivingBase entity) {
 		Render<?> renderer = Minecraft.getMinecraft().getRenderManager().getEntityRenderObject(entity);
-		if(renderer instanceof RenderLivingBase) {
-			RenderLivingBase<?> rendererLiving = (RenderLivingBase<?>)renderer;
-			return ((RenderInvoker)rendererLiving).gibbed$invokeGetEntityTexture(entity);
+		if(renderer instanceof RenderLivingBase || (ModLoadedUtil.isGeckolibLoaded() && GeckolibCompat.isRendererGeckolib(renderer))) {
+			return ((RenderInvoker)renderer).gibbed$invokeGetEntityTexture(entity);
 		}
 		return null;
 	}
-	
+
 	private static List<AbstractGib> getCachedGibsFromEntity(EntityLivingBase entity) {
 		Render<? extends Entity> entityRenderer = Minecraft.getMinecraft().getRenderManager().getEntityRenderObject(entity);
 		if(entityRenderer instanceof RenderLivingBase) {
 			RenderLivingBase<? extends EntityLivingBase> entityRendererLiving = (RenderLivingBase<? extends EntityLivingBase>)entityRenderer;
 			if(!cachedGibs.containsKey(entityRendererLiving)) {
-				float maxBranchSizeRatio = (float)ConfigHandler.MODELS.maxBranchSizeRatio;
-				float maxBranchesRatio = (float)ConfigHandler.MODELS.maxBranchesRatio;
-				Pair<Float,Float> ratioOverride = ConfigHandler.getEntityBranchRatioOverride(entity);
-				if(ratioOverride != null) {
-					maxBranchSizeRatio = ratioOverride.left;
-					maxBranchesRatio = ratioOverride.right;
-				}
-				cachedGibs.put(entityRendererLiving, generateGibs(entityRendererLiving, maxBranchSizeRatio, maxBranchesRatio));
+				Pair<Float,Float> ratios = getBranchRatios(entity);
+				cachedGibs.put(entityRendererLiving, generateGibs(entityRendererLiving, ratios.left, ratios.right));
 			}
 			return cachedGibs.get(entityRendererLiving);
 		}
+		else if(ModLoadedUtil.isGeckolibLoaded() && GeckolibCompat.isRendererGeckolib(entityRenderer)) {
+			Object cacheKey = GeckolibCompat.getGibCacheKey(entity, entityRenderer);
+			if(cacheKey == null) return Collections.emptyList();
+			if(!cachedGibs.containsKey(cacheKey)) {
+				Pair<Float,Float> ratios = getBranchRatios(entity);
+				cachedGibs.put(cacheKey, GeckolibCompat.generateGibs(cacheKey, ratios.left, ratios.right));
+			}
+			return cachedGibs.get(cacheKey);
+		}
 		return Collections.emptyList();
+	}
+
+	private static Pair<Float,Float> getBranchRatios(EntityLivingBase entity) {
+		Pair<Float,Float> ratioOverride = ConfigHandler.getEntityBranchRatioOverride(entity);
+		if(ratioOverride != null) return ratioOverride;
+		return new Pair<>((float)ConfigHandler.MODELS.maxBranchSizeRatio, (float)ConfigHandler.MODELS.maxBranchesRatio);
 	}
 	
 	private static List<AbstractGib> generateGibs(RenderLivingBase<? extends EntityLivingBase> entityRendererLiving, float maxBranchSizeRatio, float maxBranchesRatio) {

@@ -3,6 +3,8 @@ package fonnymunkey.gibbed.mixin.vanilla;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import fonnymunkey.gibbed.client.RenderCaptureHandler;
+import fonnymunkey.gibbed.compat.ModLoadedUtil;
+import fonnymunkey.gibbed.compat.geckolib.GeckolibCompat;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
@@ -21,9 +23,15 @@ public abstract class RenderManagerMixin {
 		if(entity instanceof EntityLivingBase && !entity.isEntityAlive()) {
 			RenderCaptureHandler.beginRenderStateCapture((EntityLivingBase)entity);
 			RenderCaptureHandler.beginBaseTextureCapture();
+			if(ModLoadedUtil.isGeckolibLoaded() && GeckolibCompat.isRendererGeckolib(instance)) {
+				GeckolibCompat.beginRenderStateCapture((EntityLivingBase)entity);
+			}
 		}
 		original.call(instance, entity, x, y, z, entityYaw, partialTicks);
 		if(entity instanceof EntityLivingBase && !entity.isEntityAlive()) {
+			if(ModLoadedUtil.isGeckolibLoaded() && GeckolibCompat.isRendererGeckolib(instance)) {
+				GeckolibCompat.endRenderStateCapture();
+			}
 			RenderCaptureHandler.endBaseTextureCapture();
 			RenderCaptureHandler.endRenderStateCapture();
 		}

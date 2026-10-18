@@ -1,9 +1,7 @@
 package fonnymunkey.gibbed;
 
-import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import fermiumbooter.FermiumRegistryAPI;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
-import org.spongepowered.asm.launch.MixinBootstrap;
 
 import java.util.Map;
 
@@ -11,12 +9,12 @@ import java.util.Map;
 public class GibbedPlugin implements IFMLLoadingPlugin {
 	
 	public GibbedPlugin() {
-		MixinBootstrap.init();
-		MixinExtrasBootstrap.init();
 		FermiumRegistryAPI.enqueueMixin(false, "mixins.gibbed.vanilla.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.gibbed.llibrary.json", () -> FermiumRegistryAPI.isModPresent("llibrary"));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.gibbed.mobends.json", () -> FermiumRegistryAPI.isModPresent("mobends"));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.gibbed.lycanites.json", () -> FermiumRegistryAPI.isModPresent("lycanitesmobs"));
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.gibbed.geckolib.json", () -> FermiumRegistryAPI.isModPresent("geckolib3"));
+		FermiumRegistryAPI.enqueueMixin(false, "mixins.gibbed.geckolib.vanilla.json", () -> FermiumRegistryAPI.isModPresent("geckolib3"));
 	}
 	
 	@Override
