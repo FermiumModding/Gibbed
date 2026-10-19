@@ -37,7 +37,7 @@ public abstract class MobendsCompat {
 				}
 				else baseTexture = GibGenerator.getEntityTexture(entity);
 			}
-			if(ConfigHandler.TEXTURES.useGoreTextures) {
+			if(ConfigHandler.shouldGoreTextureBeUsed(entity)) {
 				baseTexture = GibGenerator.GORE_TEXTURE;
 				layerTexture = null;
 			}

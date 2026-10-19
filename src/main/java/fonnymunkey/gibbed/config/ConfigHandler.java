@@ -189,6 +189,14 @@ public class ConfigHandler {
 		@Config.Name("Use Gore Textures")
 		public boolean useGoreTextures = false;
 		
+		@Config.Comment("If Use Gore Textures is enabled, entities in this list will still have their gibs rendered with the original entity texture")
+		@Config.Name("Entity Gore Texture Blacklist")
+		public String[] entityGoreTextureBlacklist = { "minecraft:skeleton" };
+		
+		@Config.Comment("Sets the Entity Gore Texture Blacklist to instead act as a whitelist")
+		@Config.Name("Entity Gore Texture Blacklist is Whitelist")
+		public boolean entityGoreTextureBlacklistIsWhitelist = false;
+		
 		@Config.Comment("Blacklist of Entity Registry Names to blacklist from applying captured layer overlay textures to gibs")
 		@Config.Name("Entity Layered Texture Blacklist")
 		public String[] entityLayeredTextureBlacklist = { "minecraft:mooshroom" };
@@ -250,6 +258,7 @@ public class ConfigHandler {
 	
 	private static Set<ResourceLocation> entityGibBlacklist = null;
 	private static Set<String> entityGibModidBlacklist = null;
+	private static Set<ResourceLocation> goreTextureBlacklist = null;
 	private static Set<ResourceLocation> layerTextureBlacklist = null;
 	private static Map<ResourceLocation,Pair<Float,Float>> entityBranchRatioOverrides = null;
 	
@@ -278,6 +287,25 @@ public class ConfigHandler {
 			String[] split = name.split(":");
 			if(split.length == 2 && split[1].equals("*")) entityGibModidBlacklist.add(split[0]);
 			else entityGibBlacklist.add(new ResourceLocation(name));
+		}
+	}
+	
+	public static boolean shouldGoreTextureBeUsed(EntityLivingBase entity) {
+		if(entity == null || !entity.world.isRemote) return false;
+		if(!TEXTURES.useGoreTextures) return false;
+		if(goreTextureBlacklist == null) createGoreTextureBlacklist();
+		if(goreTextureBlacklist.contains(EntityList.getKey(entity)) == TEXTURES.entityGoreTextureBlacklistIsWhitelist) {
+			return true;
+		}
+		return false;
+	}
+	
+	private static void createGoreTextureBlacklist() {
+		goreTextureBlacklist = new HashSet<>();
+		for(String name : TEXTURES.entityGoreTextureBlacklist) {
+			name = name.trim();
+			if(name.isEmpty()) continue;
+			goreTextureBlacklist.add(new ResourceLocation(name));
 		}
 	}
 	

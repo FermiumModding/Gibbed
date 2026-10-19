@@ -50,7 +50,7 @@ public class GibGenerator {
 		if(capturedRenderers == null) {
 			Map<AbstractGib,Triple<float[],ResourceLocation,ResourceLocation>> activeGibs = new HashMap<>();
 			for(AbstractGib gib : getCachedGibsFromEntity(entity)) {
-				ResourceLocation baseTexture = ConfigHandler.TEXTURES.useGoreTextures ? GORE_TEXTURE : getEntityTexture(entity);
+				ResourceLocation baseTexture = ConfigHandler.shouldGoreTextureBeUsed(entity) ? GORE_TEXTURE : getEntityTexture(entity);
 				if(baseTexture == null) continue;
 				float[] scales = gib.getDefaultScales();
 				if(scales == null) continue;
@@ -75,7 +75,7 @@ public class GibGenerator {
 					}
 					else baseTexture = getEntityTexture(entity);
 				}
-				if(ConfigHandler.TEXTURES.useGoreTextures) {
+				if(ConfigHandler.shouldGoreTextureBeUsed(entity)) {
 					baseTexture = GORE_TEXTURE;
 					layerTexture = null;
 				}

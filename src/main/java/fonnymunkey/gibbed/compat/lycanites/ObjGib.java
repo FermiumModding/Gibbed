@@ -5,6 +5,7 @@ import com.lycanitesmobs.client.obj.TessellatorModel;
 import com.lycanitesmobs.client.obj.Vertex;
 import fonnymunkey.gibbed.client.gib.AbstractGib;
 import fonnymunkey.gibbed.client.gib.EntityGib;
+import fonnymunkey.gibbed.client.gib.GibGenerator;
 import fonnymunkey.gibbed.client.gib.RenderGib;
 import fonnymunkey.gibbed.config.ConfigHandler;
 import net.minecraft.client.renderer.GlStateManager;
@@ -164,7 +165,7 @@ public class ObjGib extends AbstractGib {
 			GlStateManager.translate(-rotAxisZ * (shortest / 2.0F + entityGib.zFightOffset), rotAxisY * (shortest / 2.0F + entityGib.zFightOffset), rotAxisX * (shortest / 2.0F + entityGib.zFightOffset));
 		}
 		
-		if(ConfigHandler.TEXTURES.useGoreTextures) {
+		if(ConfigHandler.TEXTURES.useGoreTextures && entityGib.baseTexture == GibGenerator.GORE_TEXTURE) {
 			GlStateManager.pushMatrix();
 			GlStateManager.matrixMode(5890);
 			GlStateManager.loadIdentity();
@@ -179,7 +180,7 @@ public class ObjGib extends AbstractGib {
 			this.tessellator.renderGroup(this.obj, new Vector4f(scales[4], scales[5], scales[6], scales[7]), new Vector2f(scales[8], scales[9]), null);
 		}
 		
-		if(ConfigHandler.TEXTURES.useGoreTextures) {
+		if(ConfigHandler.TEXTURES.useGoreTextures && entityGib.baseTexture == GibGenerator.GORE_TEXTURE) {
 			GlStateManager.matrixMode(5890);
 			GlStateManager.loadIdentity();
 			GlStateManager.matrixMode(5888);

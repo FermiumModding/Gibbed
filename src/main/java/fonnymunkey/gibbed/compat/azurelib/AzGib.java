@@ -2,6 +2,7 @@ package fonnymunkey.gibbed.compat.azurelib;
 
 import fonnymunkey.gibbed.client.gib.AbstractGib;
 import fonnymunkey.gibbed.client.gib.EntityGib;
+import fonnymunkey.gibbed.client.gib.GibGenerator;
 import fonnymunkey.gibbed.client.gib.RenderGib;
 import fonnymunkey.gibbed.config.ConfigHandler;
 import it.unimi.dsi.fastutil.floats.FloatArrayList;
@@ -191,7 +192,7 @@ public class AzGib extends AbstractGib {
 		}
 		GlStateManager.scale(entityGib.scale, entityGib.scale, entityGib.scale);
 
-		if(ConfigHandler.TEXTURES.useGoreTextures) {
+		if(ConfigHandler.TEXTURES.useGoreTextures && entityGib.baseTexture == GibGenerator.GORE_TEXTURE) {
 			GlStateManager.pushMatrix();
 			GlStateManager.matrixMode(5890);
 			GlStateManager.loadIdentity();
@@ -206,7 +207,7 @@ public class AzGib extends AbstractGib {
 			this.drawVertices(alpha);
 		}
 
-		if(ConfigHandler.TEXTURES.useGoreTextures) {
+		if(ConfigHandler.TEXTURES.useGoreTextures && entityGib.baseTexture == GibGenerator.GORE_TEXTURE) {
 			GlStateManager.matrixMode(5890);
 			GlStateManager.loadIdentity();
 			GlStateManager.matrixMode(5888);

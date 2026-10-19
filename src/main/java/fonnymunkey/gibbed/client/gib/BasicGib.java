@@ -159,7 +159,7 @@ public class BasicGib extends AbstractGib {
 			GlStateManager.translate(rotAxisZ * (shortest / 2.0F + entityGib.zFightOffset), -rotAxisY * (shortest / 2.0F + entityGib.zFightOffset), -rotAxisX * (shortest / 2.0F + entityGib.zFightOffset));
 		}
 		
-		if(ConfigHandler.TEXTURES.useGoreTextures) {
+		if(ConfigHandler.TEXTURES.useGoreTextures && entityGib.baseTexture == GibGenerator.GORE_TEXTURE) {
 			GlStateManager.pushMatrix();
 			GlStateManager.matrixMode(5890);
 			GlStateManager.loadIdentity();
@@ -208,7 +208,7 @@ public class BasicGib extends AbstractGib {
 		this.renderer.rotationPointY = modelRotPointY;
 		this.renderer.rotationPointZ = modelRotPointZ;
 		
-		if(ConfigHandler.TEXTURES.useGoreTextures) {
+		if(ConfigHandler.TEXTURES.useGoreTextures && entityGib.baseTexture == GibGenerator.GORE_TEXTURE) {
 			GlStateManager.matrixMode(5890);
 			GlStateManager.loadIdentity();
 			GlStateManager.matrixMode(5888);
