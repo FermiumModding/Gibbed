@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "fonnymunkey.gibbed.mixin",
+  "refmap": "${mod_id}.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [],
+  "client": [
+    "vanilla.AgeableListModelInvoker",
+    "vanilla.EntityRenderDispatcherMixin",
+    "vanilla.LivingEntityMixin",
+    "vanilla.LivingEntityRendererMixin",
+    "vanilla.ModelPartAccessor",
+    "vanilla.ModelPartMixin",
+    "vanilla.RenderTypeMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
