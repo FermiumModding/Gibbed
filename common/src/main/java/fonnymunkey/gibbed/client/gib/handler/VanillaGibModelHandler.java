@@ -95,7 +95,8 @@ public class VanillaGibModelHandler implements IGibModelHandler {
 		}
 		for(Class<?> clazz = model.getClass(); clazz != null && clazz != Object.class; clazz = clazz.getSuperclass()) {
 			for(Field field : clazz.getDeclaredFields()) {
-				if(Modifier.isStatic(field.getModifiers())) continue;
+				if(Modifier.isStatic(field.getModifiers()) || field.isSynthetic()) continue;
+				if(field.getName().contains("$")) continue;
 				Class<?> type = field.getType();
 				boolean isPart = ModelPart.class.isAssignableFrom(type);
 				boolean isPartArray = type.isArray() && ModelPart.class.isAssignableFrom(type.getComponentType());
