@@ -1,6 +1,7 @@
 package fonnymunkey.gibbed.client.gib.handler;
 
 import fonnymunkey.gibbed.Constants;
+import fonnymunkey.gibbed.client.RenderCaptureHandler;
 import fonnymunkey.gibbed.client.gib.AbstractGib;
 import fonnymunkey.gibbed.client.gib.BasicGib;
 import fonnymunkey.gibbed.mixin.vanilla.AgeableListModelInvoker;
@@ -21,6 +22,7 @@ import java.lang.reflect.Modifier;
 import java.util.*;
 
 public class VanillaGibModelHandler implements IGibModelHandler {
+	private static final Map<EntityModel<?>,List<ModelPart>> ROOT_PARTS = new WeakHashMap<>();
 
 	@Override
 	public boolean canHandle(EntityRenderer<?> renderer) {
@@ -35,20 +37,48 @@ public class VanillaGibModelHandler implements IGibModelHandler {
 	@Override
 	public List<AbstractGib> generateGibs(Object cacheKey, LivingEntity entity, EntityRenderer<?> renderer, float maxBranchSizeRatio, float maxBranchesRatio) {
 		if(!(renderer instanceof LivingEntityRenderer<?,?> livingRenderer)) return Collections.emptyList();
-		Set<ModelPart> modelParts = collectModelParts(livingRenderer.getModel());
-		if(modelParts.isEmpty()) return Collections.emptyList();
+		List<ModelPart> rootParts = getRootParts(livingRenderer.getModel());
+		if(rootParts.isEmpty()) return Collections.emptyList();
 
-		Set<ModelPart> nestedParts = new HashSet<>();
-		for(ModelPart part : modelParts) {
-			part.getAllParts().skip(1).forEach(nestedParts::add);
-		}
-		List<ModelPart> rootParts = new ArrayList<>();
-		for(ModelPart part : modelParts) {
-			if(!nestedParts.contains(part)) rootParts.add(part);
+		boolean nested = false;
+		for(ModelPart part : rootParts) {
+			if(!((ModelPartAccessor)(Object)part).gibbed$getChildren().isEmpty()) {
+				nested = true;
+				break;
+			}
 		}
 
-		if(maxBranchSizeRatio <= 0.0F || maxBranchesRatio <= 0.0F || nestedParts.isEmpty()) return generateGibsSimple(rootParts);
+		if(maxBranchSizeRatio <= 0.0F || maxBranchesRatio <= 0.0F || !nested) return generateGibsSimple(rootParts);
 		else return generateGibsBranched(rootParts, maxBranchSizeRatio, maxBranchesRatio);
+	}
+
+	public static List<ModelPart> getRootParts(EntityModel<?> model) {
+		return ROOT_PARTS.computeIfAbsent(model, key -> {
+			Set<ModelPart> modelParts = collectModelParts(key);
+			Set<ModelPart> nestedParts = new HashSet<>();
+			for(ModelPart part : modelParts) {
+				part.getAllParts().skip(1).forEach(nestedParts::add);
+			}
+			List<ModelPart> rootParts = new ArrayList<>();
+			for(ModelPart part : modelParts) {
+				if(!nestedParts.contains(part)) rootParts.add(part);
+			}
+			return rootParts;
+		});
+	}
+
+	public static void captureModelParts(EntityModel<?> model) {
+		for(ModelPart part : getRootParts(model)) {
+			capturePart(part);
+		}
+	}
+
+	private static void capturePart(ModelPart part) {
+		if(!part.visible) return;
+		RenderCaptureHandler.captureRenderer(part, 0.0625F);
+		for(ModelPart childPart : ((ModelPartAccessor)(Object)part).gibbed$getChildren().values()) {
+			capturePart(childPart);
+		}
 	}
 
 	private static Set<ModelPart> collectModelParts(EntityModel<?> model) {

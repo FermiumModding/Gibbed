@@ -21,6 +21,7 @@ import java.util.Map.Entry;
 
 public class EventHandlerClient {
     public static WeakHashMap<LivingEntity,Pair<Boolean,Integer>> dyingEntities = new WeakHashMap<>();
+    private static final Set<LivingEntity> handledEntities = Collections.newSetFromMap(new WeakHashMap<>());
     private static ClientLevel currentLevel = null;
 
     public static void onClientDeath(LivingEntity entity) {
@@ -29,7 +30,7 @@ public class EventHandlerClient {
         if(Minecraft.getInstance().level == null) return;
         if(Minecraft.getInstance().player == null) return;
         if(entity.isBaby()) return;
-        if(dyingEntities.containsKey(entity)) return;
+        if(!handledEntities.add(entity)) return;
         DamageSource source = entity.getLastDamageSource();
         boolean explosion = source != null && source.is(DamageTypeTags.IS_EXPLOSION);
         if(dyingEntities.size() < ConfigHandler.CONFIG.GENERAL.maximumQueuedGibbedEntities &&
@@ -43,10 +44,12 @@ public class EventHandlerClient {
         ClientLevel level = minecraft.level;
         if(level != currentLevel) {
             dyingEntities.clear();
+            handledEntities.clear();
             currentLevel = level;
         }
         if(level == null || minecraft.player == null) {
             dyingEntities.clear();
+            handledEntities.clear();
             GibManager.tick(null);
             clearCaptures();
             return;
@@ -62,7 +65,10 @@ public class EventHandlerClient {
         if(iter.hasNext()) {
             Entry<LivingEntity,Pair<Boolean,Integer>> entry = iter.next();
             LivingEntity entity = entry.getKey();
-            if(entity == null || entity.isAlive() || entity.isRemoved()) iter.remove();
+            if(entity == null || entity.isAlive() || entity.isRemoved()) {
+                if(entity != null && entity.isAlive()) handledEntities.remove(entity);
+                iter.remove();
+            }
             else {
                 entity.hurtTime = 0;
                 entity.deathTime = 0;
