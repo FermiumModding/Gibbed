@@ -30,6 +30,7 @@ public class EventHandlerClient {
         if(Minecraft.getInstance().level == null) return;
         if(Minecraft.getInstance().player == null) return;
         if(entity.isBaby()) return;
+        if(entity.isAlive()) return;
         if(!handledEntities.add(entity)) return;
         DamageSource source = entity.getLastDamageSource();
         boolean explosion = source != null && source.is(DamageTypeTags.IS_EXPLOSION);
@@ -62,11 +63,11 @@ public class EventHandlerClient {
         GibManager.tick(level);
 
         Iterator<Entry<LivingEntity,Pair<Boolean,Integer>>> iter = dyingEntities.entrySet().iterator();
-        if(iter.hasNext()) {
+        while(iter.hasNext()) {
             Entry<LivingEntity,Pair<Boolean,Integer>> entry = iter.next();
             LivingEntity entity = entry.getKey();
             if(entity == null || entity.isAlive() || entity.isRemoved()) {
-                if(entity != null && entity.isAlive()) handledEntities.remove(entity);
+                if(entity != null && !entity.isDeadOrDying()) handledEntities.remove(entity);
                 iter.remove();
             }
             else {
