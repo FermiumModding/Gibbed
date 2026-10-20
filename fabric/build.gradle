@@ -24,6 +24,7 @@ dependencies {
     }
 
     modCompileOnly modLocalRuntime("com.terraformersmc:modmenu:${modmenu_version}")
+    modCompileOnly("software.bernie.geckolib:geckolib-fabric-${minecraft_version}:${geckolib_version}") { transitive = false }
 }
 
 loom {

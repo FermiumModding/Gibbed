@@ -32,6 +32,9 @@ public class RenderCaptureHandler {
 	private static boolean capturingLayerTexture = false;
 	private static ResourceLocation capturedLayerTexture = null;
 	
+	private static boolean autoLayerTextures = false;
+	private static ResourceLocation autoBaseTexture = null;
+
 	public static void beginRenderStateCapture(LivingEntity entity) {
 		renderCaptureEntity = entity.getId();
 		capturingScale = false;
@@ -42,6 +45,8 @@ public class RenderCaptureHandler {
 		capturedBaseTexture = null;
 		capturingLayerTexture = false;
 		capturedLayerTexture = null;
+		autoLayerTextures = false;
+		autoBaseTexture = null;
 	}
 	
 	public static void endRenderStateCapture() {
@@ -55,6 +60,18 @@ public class RenderCaptureHandler {
 		capturedBaseTexture = null;
 		capturingLayerTexture = false;
 		capturedLayerTexture = null;
+		autoLayerTextures = false;
+		autoBaseTexture = null;
+	}
+
+	public static void beginAutoLayerTextureCapture() {
+		autoLayerTextures = true;
+		autoBaseTexture = null;
+	}
+
+	public static void endAutoLayerTextureCapture() {
+		autoLayerTextures = false;
+		autoBaseTexture = null;
 	}
 	
 	public static boolean isCapturing() {
@@ -137,6 +154,19 @@ public class RenderCaptureHandler {
 	public static void captureTexture(ResourceLocation location) {
 		if(!isCapturing() || location == null) return;
 		if(location.getPath().startsWith("textures/atlas/")) return;
+		if(autoLayerTextures) {
+			if(autoBaseTexture == null) {
+				autoBaseTexture = location;
+			}
+			else if(location.equals(autoBaseTexture)) {
+				endLayerTextureCapture();
+				beginBaseTextureCapture();
+			}
+			else {
+				endBaseTextureCapture();
+				beginLayerTextureCapture();
+			}
+		}
 		if(capturingBaseTexture) capturedBaseTexture = location;
 		else if(capturingLayerTexture) capturedLayerTexture = location;
 	}

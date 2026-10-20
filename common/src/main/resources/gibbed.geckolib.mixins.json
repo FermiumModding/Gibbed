@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "fonnymunkey.gibbed.mixin",
+  "plugin": "fonnymunkey.gibbed.compat.geckolib.GeckoLibMixinPlugin",
+  "refmap": "${mod_id}.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [],
+  "client": [
+    "geckolib.GeoModelMixin",
+    "geckolib.RenderUtilsMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
