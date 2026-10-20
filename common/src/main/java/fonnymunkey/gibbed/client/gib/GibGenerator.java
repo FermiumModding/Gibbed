@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class GibGenerator {
-	public static final ResourceLocation GORE_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/gore.png");
+	public static final ResourceLocation GORE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/gore.png");
 	private static final Map<Object,List<AbstractGib>> cachedGibs = new WeakHashMap<>();
 	
 	public static void resetCache() {

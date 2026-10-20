@@ -10,10 +10,10 @@ import net.minecraft.resources.ResourceLocation;
 
 public class BloodParticle extends TextureSheetParticle {
 	private static final ResourceLocation[] SPRITES = {
-			new ResourceLocation("minecraft", "splash_0"),
-			new ResourceLocation("minecraft", "splash_1"),
-			new ResourceLocation("minecraft", "splash_2"),
-			new ResourceLocation("minecraft", "splash_3")
+			ResourceLocation.withDefaultNamespace("splash_0"),
+			ResourceLocation.withDefaultNamespace("splash_1"),
+			ResourceLocation.withDefaultNamespace("splash_2"),
+			ResourceLocation.withDefaultNamespace("splash_3")
 	};
 	
 	public BloodParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {

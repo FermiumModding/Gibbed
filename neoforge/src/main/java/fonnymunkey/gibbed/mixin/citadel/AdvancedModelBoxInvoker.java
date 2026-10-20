@@ -9,5 +9,5 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(value = AdvancedModelBox.class, remap = false)
 public interface AdvancedModelBoxInvoker {
 	@Invoker("doRender")
-	void gibbed$invokeDoRender(PoseStack.Pose pose, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha);
+	void gibbed$invokeDoRender(PoseStack.Pose pose, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color);
 }

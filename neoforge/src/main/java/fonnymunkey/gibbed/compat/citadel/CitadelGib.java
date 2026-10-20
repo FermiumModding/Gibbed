@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
@@ -88,12 +89,12 @@ public class CitadelGib extends AbstractGib {
 			consumer = new UVScalingVertexConsumer(consumer, gib.goreScaleU, gib.goreScaleV);
 		}
 		if(this.renderChildren) {
-			this.box.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, alpha);
+			this.box.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, FastColor.ARGB32.colorFromFloat(alpha, 1.0F, 1.0F, 1.0F));
 		}
 		else {
 			poseStack.pushPose();
 			this.box.translateAndRotate(poseStack);
-			((AdvancedModelBoxInvoker)this.box).gibbed$invokeDoRender(poseStack.last(), consumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, alpha);
+			((AdvancedModelBoxInvoker)this.box).gibbed$invokeDoRender(poseStack.last(), consumer, packedLight, OverlayTexture.NO_OVERLAY, FastColor.ARGB32.colorFromFloat(alpha, 1.0F, 1.0F, 1.0F));
 			poseStack.popPose();
 		}
 	}

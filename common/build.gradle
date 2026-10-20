@@ -1,12 +1,13 @@
 plugins {
     id 'multiloader-common'
-    id 'net.neoforged.moddev.legacyforge'
+    id 'net.neoforged.moddev'
 }
 
-legacyForge {
-    mcpVersion = minecraft_version
-    if (file("src/main/resources/META-INF/accesstransformer.cfg").exists()) {
-        accessTransformers = ["src/main/resources/META-INF/accesstransformer.cfg"]
+neoForge {
+    neoFormVersion = neo_form_version
+    def at = file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.exists()) {
+        accessTransformers.from(at.absolutePath)
     }
     parchment {
         minecraftVersion = parchment_minecraft
@@ -23,10 +24,9 @@ dependencies {
     compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
 
-    //Forge variant is remapped to mojmap, unlike the intermediary named common artifact, the API is identical between loaders
-    modCompileOnly("me.shedaniel.cloth:cloth-config-forge:${cloth_version}")
-    modCompileOnly("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}") { transitive = false }
-    modCompileOnly("mod.azure.azurelib:azurelib-neo-${minecraft_version}:${azurelib_version}") { transitive = false }
+    compileOnly("me.shedaniel.cloth:cloth-config-neoforge:${cloth_version}") { transitive = false }
+    compileOnly("software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}") { transitive = false }
+    compileOnly("mod.azure.azurelib:azurelib-neo-${minecraft_version}:${azurelib_version}") { transitive = false }
 }
 
 configurations {

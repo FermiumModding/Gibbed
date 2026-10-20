@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -169,10 +170,11 @@ public abstract class BoneGib<B> extends AbstractGib {
 		Matrix3f normal = poseStack.last().normal();
 		Vector4f position = new Vector4f();
 		Vector3f vertexNormal = new Vector3f();
+		int color = FastColor.ARGB32.colorFromFloat(alpha, 1.0F, 1.0F, 1.0F);
 		for(int i = 0; i < this.vertexData.length; i += VERTEX_SIZE) {
 			pose.transform(position.set(this.vertexData[i], this.vertexData[i + 1], this.vertexData[i + 2], 1.0F));
 			normal.transform(vertexNormal.set(this.vertexData[i + 5], this.vertexData[i + 6], this.vertexData[i + 7]));
-			consumer.vertex(position.x(), position.y(), position.z(), 1.0F, 1.0F, 1.0F, alpha,
+			consumer.addVertex(position.x(), position.y(), position.z(), color,
 							this.vertexData[i + 3], this.vertexData[i + 4], OverlayTexture.NO_OVERLAY, packedLight,
 							vertexNormal.x(), vertexNormal.y(), vertexNormal.z());
 		}

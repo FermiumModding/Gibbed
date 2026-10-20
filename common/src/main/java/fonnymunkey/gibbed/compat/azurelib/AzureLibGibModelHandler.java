@@ -3,9 +3,9 @@ package fonnymunkey.gibbed.compat.azurelib;
 import fonnymunkey.gibbed.client.gib.AbstractGib;
 import fonnymunkey.gibbed.compat.BoneGibGenerator;
 import fonnymunkey.gibbed.client.gib.handler.IGibModelHandler;
-import mod.azure.azurelib.model.AzBakedModel;
-import mod.azure.azurelib.model.AzBone;
-import mod.azure.azurelib.render.entity.AzEntityRenderer;
+import mod.azure.azurelib.common.model.AzBakedModel;
+import mod.azure.azurelib.common.model.AzBone;
+import mod.azure.azurelib.common.render.entity.AzEntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.world.entity.LivingEntity;
 

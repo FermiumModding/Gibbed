@@ -1,0 +1,55 @@
+plugins {
+    id 'multiloader-loader'
+    id 'net.neoforged.moddev'
+}
+
+neoForge {
+    version = neoforge_version
+    def at = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.exists()) {
+        accessTransformers.from(at.absolutePath)
+    }
+    parchment {
+        minecraftVersion = parchment_minecraft
+        mappingsVersion = parchment_version
+    }
+    runs {
+        configureEach {
+            ideName = "NeoForge ${it.name.capitalize()} (${project.path})"
+        }
+        client {
+            client()
+        }
+        data {
+            data()
+        }
+        server {
+            server()
+        }
+    }
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    maven { url "https://maven.shedaniel.me/" }
+    exclusiveContent {
+        forRepository {
+            maven { url "https://www.cursemaven.com" }
+        }
+        filter { includeGroup("curse.maven") }
+    }
+}
+
+dependencies {
+    implementation("me.shedaniel.cloth:cloth-config-neoforge:${cloth_version}")
+
+    compileOnly("curse.maven:citadel-${citadel_version}")
+    compileOnly("software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}") { transitive = false }
+    compileOnly("mod.azure.azurelib:azurelib-neo-${minecraft_version}:${azurelib_version}") { transitive = false }
+}

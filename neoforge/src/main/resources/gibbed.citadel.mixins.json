@@ -3,8 +3,7 @@
   "minVersion": "0.8",
   "package": "fonnymunkey.gibbed.mixin",
   "plugin": "fonnymunkey.gibbed.compat.citadel.CitadelMixinPlugin",
-  "refmap": "${mod_id}.refmap.json",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
   "mixins": [],
   "client": [
     "citadel.AdvancedModelBoxInvoker",

@@ -9,8 +9,8 @@ import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.cache.object.GeoCube;
 import software.bernie.geckolib.cache.object.GeoQuad;
 import software.bernie.geckolib.cache.object.GeoVertex;
-import software.bernie.geckolib.core.state.BoneSnapshot;
-import software.bernie.geckolib.util.RenderUtils;
+import software.bernie.geckolib.animation.state.BoneSnapshot;
+import software.bernie.geckolib.util.RenderUtil;
 
 import java.util.List;
 
@@ -78,7 +78,7 @@ public class GeoGib extends BoneGib<GeoBone> {
 				if(quad == null) continue;
 				Vector3f normal = normalMatrix.transform(new Vector3f(quad.normal()));
 				if(normal.lengthSquared() > 0.0F) normal.normalize();
-				RenderUtils.fixInvertedFlatCube(cube, normal);
+				RenderUtil.fixInvertedFlatCube(cube, normal);
 
 				for(GeoVertex vertex : quad.vertices()) {
 					cubeMatrix.transform(position.set(vertex.position(), 1.0F));

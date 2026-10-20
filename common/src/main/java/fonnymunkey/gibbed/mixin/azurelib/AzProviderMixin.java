@@ -1,8 +1,8 @@
 package fonnymunkey.gibbed.mixin.azurelib;
 
 import fonnymunkey.gibbed.compat.azurelib.AzureLibCompat;
-import mod.azure.azurelib.model.AzBakedModel;
-import mod.azure.azurelib.render.AzProvider;
+import mod.azure.azurelib.common.model.AzBakedModel;
+import mod.azure.azurelib.common.render.AzProvider;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

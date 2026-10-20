@@ -2,8 +2,8 @@ package fonnymunkey.gibbed.compat.azurelib;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import fonnymunkey.gibbed.compat.BoneModelCapture;
-import mod.azure.azurelib.model.AzBakedModel;
-import mod.azure.azurelib.model.AzBone;
+import mod.azure.azurelib.common.model.AzBakedModel;
+import mod.azure.azurelib.common.model.AzBone;
 
 public abstract class AzureLibCompat {
 	public static final BoneModelCapture<AzBakedModel> CAPTURE = new BoneModelCapture<>();

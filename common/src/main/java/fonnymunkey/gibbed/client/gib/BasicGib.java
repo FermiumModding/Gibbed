@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
@@ -86,14 +87,14 @@ public class BasicGib extends AbstractGib {
 			consumer = new UVScalingVertexConsumer(consumer, gib.goreScaleU, gib.goreScaleV);
 		}
 		if(this.renderChildren) {
-			this.part.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, alpha);
+			this.part.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, FastColor.ARGB32.colorFromFloat(alpha, 1.0F, 1.0F, 1.0F));
 		}
 		else {
 			poseStack.pushPose();
 			this.part.translateAndRotate(poseStack);
 			PoseStack.Pose pose = poseStack.last();
 			for(ModelPart.Cube cube : ((ModelPartAccessor)(Object)this.part).gibbed$getCubes()) {
-				cube.compile(pose, consumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, alpha);
+				cube.compile(pose, consumer, packedLight, OverlayTexture.NO_OVERLAY, FastColor.ARGB32.colorFromFloat(alpha, 1.0F, 1.0F, 1.0F));
 			}
 			poseStack.popPose();
 		}

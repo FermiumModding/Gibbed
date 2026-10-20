@@ -17,10 +17,10 @@ public abstract class ModelPartMixin {
 	public boolean visible;
 
 	@Inject(
-			method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIFFFF)V",
+			method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V",
 			at = @At("HEAD")
 	)
-	private void gibbed_vanillaModelPart_render(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, CallbackInfo ci) {
+	private void gibbed_vanillaModelPart_render(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color, CallbackInfo ci) {
 		if(this.visible && RenderCaptureHandler.isCapturing()) {
 			RenderCaptureHandler.captureRenderer(this, 0.0625F);
 		}

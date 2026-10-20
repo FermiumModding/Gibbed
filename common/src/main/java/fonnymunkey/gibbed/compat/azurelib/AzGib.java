@@ -1,12 +1,12 @@
 package fonnymunkey.gibbed.compat.azurelib;
 
 import fonnymunkey.gibbed.compat.BoneGib;
-import mod.azure.azurelib.cache.object.GeoCube;
-import mod.azure.azurelib.cache.object.GeoQuad;
-import mod.azure.azurelib.cache.object.GeoVertex;
-import mod.azure.azurelib.model.AzBone;
-import mod.azure.azurelib.model.AzBoneSnapshot;
-import mod.azure.azurelib.util.client.RenderUtils;
+import mod.azure.azurelib.common.cache.object.GeoCube;
+import mod.azure.azurelib.common.cache.object.GeoQuad;
+import mod.azure.azurelib.common.cache.object.GeoVertex;
+import mod.azure.azurelib.common.model.AzBone;
+import mod.azure.azurelib.common.model.AzBoneSnapshot;
+import mod.azure.azurelib.common.util.client.RenderUtils;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;

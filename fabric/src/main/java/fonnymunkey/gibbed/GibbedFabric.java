@@ -16,6 +16,6 @@ public class GibbedFabric implements ClientModInitializer {
         GibbedCommon.init();
 
         ClientTickEvents.END_CLIENT_TICK.register(minecraft -> EventHandlerClient.onClientTickEnd());
-        WorldRenderEvents.AFTER_ENTITIES.register(context -> GibManager.render(context.matrixStack(), context.camera(), context.tickDelta()));
+        WorldRenderEvents.AFTER_ENTITIES.register(context -> GibManager.render(context.matrixStack(), context.camera(), context.tickCounter().getGameTimeDeltaPartialTick(false)));
     }
 }

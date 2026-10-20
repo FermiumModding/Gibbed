@@ -14,7 +14,7 @@ public class SoundHandler {
 	private static Boolean isApril1 = null;
 	
 	private static SoundEvent createSound(String name) {
-		return SoundEvent.createVariableRangeEvent(new ResourceLocation(Constants.MOD_ID, name));
+		return SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, name));
 	}
 	
 	public static SoundEvent getGibbedSound() {
