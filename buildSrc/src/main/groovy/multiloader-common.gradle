@@ -47,6 +47,15 @@ repositories {
         }
         filter { includeGroup('software.bernie.geckolib') }
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'AzureLib'
+                url = 'https://maven.azuredoom.com/mods'
+            }
+        }
+        filter { includeGroup('mod.azure.azurelib') }
+    }
 }
 
 // Declare capabilities on the outgoing configurations.

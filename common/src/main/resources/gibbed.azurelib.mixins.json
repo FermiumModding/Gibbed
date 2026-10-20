@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "fonnymunkey.gibbed.mixin",
+  "plugin": "fonnymunkey.gibbed.compat.azurelib.AzureLibMixinPlugin",
+  "refmap": "${mod_id}.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [],
+  "client": [
+    "azurelib.AzProviderMixin",
+    "azurelib.RenderUtilsMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

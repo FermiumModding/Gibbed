@@ -9,6 +9,7 @@ mixin {
     config("${mod_id}.mixins.json")
     config("${mod_id}.citadel.mixins.json")
     config("${mod_id}.geckolib.mixins.json")
+    config("${mod_id}.azurelib.mixins.json")
 }
 
 legacyForge {
@@ -63,11 +64,12 @@ dependencies {
 
     modCompileOnly("curse.maven:citadel-${citadel_version}")
     modCompileOnly("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}") { transitive = false }
+    modCompileOnly("mod.azure.azurelib:azurelib-neo-${minecraft_version}:${azurelib_version}") { transitive = false }
 }
 
 jar {
     finalizedBy('reobfJar')
     manifest.attributes([
-            "MixinConfigs": "${mod_id}.mixins.json,${mod_id}.citadel.mixins.json,${mod_id}.geckolib.mixins.json"
+            "MixinConfigs": "${mod_id}.mixins.json,${mod_id}.citadel.mixins.json,${mod_id}.geckolib.mixins.json,${mod_id}.azurelib.mixins.json"
     ])
 }
