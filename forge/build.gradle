@@ -7,6 +7,7 @@ mixin {
     add(sourceSets.main, "${mod_id}.refmap.json")
 
     config("${mod_id}.mixins.json")
+    config("${mod_id}.citadel.mixins.json")
 }
 
 legacyForge {
@@ -46,17 +47,25 @@ sourceSets.main.resources.srcDir 'src/generated/resources'
 
 repositories {
     maven { url "https://maven.shedaniel.me/" }
+    exclusiveContent {
+        forRepository {
+            maven { url "https://www.cursemaven.com" }
+        }
+        filter { includeGroup("curse.maven") }
+    }
 }
 
 dependencies {
     compileOnly project(":common")
     annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT:processor")
     modImplementation("me.shedaniel.cloth:cloth-config-forge:${cloth_version}")
+
+    modCompileOnly("curse.maven:citadel-${citadel_version}")
 }
 
 jar {
     finalizedBy('reobfJar')
     manifest.attributes([
-            "MixinConfigs": "${mod_id}.mixins.json"
+            "MixinConfigs": "${mod_id}.mixins.json,${mod_id}.citadel.mixins.json"
     ])
 }
