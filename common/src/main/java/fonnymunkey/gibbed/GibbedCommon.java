@@ -6,6 +6,7 @@ import fonnymunkey.gibbed.client.particle.ParticleHandler;
 import fonnymunkey.gibbed.client.particle.VanillaBloodParticleHandler;
 import fonnymunkey.gibbed.compat.azurelib.AzureLibGibModelHandler;
 import fonnymunkey.gibbed.compat.geckolib.GeckoLibGibModelHandler;
+import fonnymunkey.gibbed.compat.uranus.UranusGibModelHandler;
 import fonnymunkey.gibbed.config.ConfigHandler;
 import fonnymunkey.gibbed.util.ModLoadedUtil;
 
@@ -19,5 +20,6 @@ public class GibbedCommon {
 
         if(ModLoadedUtil.isGeckoLibLoaded()) GibModelHandlers.register(new GeckoLibGibModelHandler());
         if(ModLoadedUtil.isAzureLibLoaded()) GibModelHandlers.register(new AzureLibGibModelHandler());
+        if(ModLoadedUtil.isUranusLoaded()) GibModelHandlers.register(new UranusGibModelHandler());
     }
 }

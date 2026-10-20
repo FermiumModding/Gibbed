@@ -56,6 +56,15 @@ repositories {
         }
         filter { includeGroup('mod.azure.azurelib') }
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'Modrinth'
+                url = 'https://api.modrinth.com/maven'
+            }
+        }
+        filter { includeGroup('maven.modrinth') }
+    }
 }
 
 // Declare capabilities on the outgoing configurations.

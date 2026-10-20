@@ -27,6 +27,7 @@ dependencies {
     modCompileOnly("me.shedaniel.cloth:cloth-config-forge:${cloth_version}")
     modCompileOnly("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}") { transitive = false }
     modCompileOnly("mod.azure.azurelib:azurelib-neo-${minecraft_version}:${azurelib_version}") { transitive = false }
+    modCompileOnly("maven.modrinth:uranus:${uranus_forge_version}") { transitive = false }
 }
 
 configurations {
