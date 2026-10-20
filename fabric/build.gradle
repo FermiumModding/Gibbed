@@ -26,6 +26,7 @@ dependencies {
     modCompileOnly modLocalRuntime("com.terraformersmc:modmenu:${modmenu_version}")
     compileOnly("software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}") { transitive = false }
     modCompileOnly("mod.azure.azurelib:azurelib-fabric-${minecraft_version}:${azurelib_version}") { transitive = false }
+    compileOnly("maven.modrinth:uranus:${uranus_version}") { transitive = false }
 }
 
 loom {

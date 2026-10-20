@@ -28,7 +28,8 @@
     "mixins": [
         "${mod_id}.mixins.json",
         "${mod_id}.geckolib.mixins.json",
-        "${mod_id}.azurelib.mixins.json"
+        "${mod_id}.azurelib.mixins.json",
+        "${mod_id}.uranus.mixins.json"
     ],
     "depends": {
         "fabricloader": ">=${fabric_loader_version}",
