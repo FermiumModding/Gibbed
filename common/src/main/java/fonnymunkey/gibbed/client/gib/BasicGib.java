@@ -72,6 +72,9 @@ public class BasicGib extends AbstractGib {
 		if(gib.layerTexture != null) {
 			this.renderPart(poseStack, buffer, gib.layerTexture, gib, packedLight, alpha);
 		}
+		if(gib.stainTexture != null) {
+			this.renderPart(poseStack, buffer, gib.stainTexture, gib, packedLight, alpha);
+		}
 
 		for(PartState state : states) {
 			state.restore();

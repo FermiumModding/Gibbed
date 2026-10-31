@@ -62,6 +62,10 @@
   "text.autoconfig.gibbed.option.TEXTURES.entityLayeredTextureBlacklist.@Tooltip": "Blacklist of Entity Registry Names to blacklist from applying captured layer overlay textures to gibs",
   "text.autoconfig.gibbed.option.TEXTURES.layerTextureBlacklistIsWhitelist": "Entity Layered Texture Blacklist is Whitelist",
   "text.autoconfig.gibbed.option.TEXTURES.layerTextureBlacklistIsWhitelist.@Tooltip": "Sets the Entity Layered Texture Blacklist to instead act as a whitelist",
+  "text.autoconfig.gibbed.option.TEXTURES.stainGibsWithGore": "Stain Gibs With Gore",
+  "text.autoconfig.gibbed.option.TEXTURES.stainGibsWithGore.@Tooltip": "Overlays random patches of the gore texture on gibs that use the original entity textures. Entities excluded by the Entity Gore Texture Blacklist are not stained",
+  "text.autoconfig.gibbed.option.TEXTURES.goreStainCoverage": "Gore Stain Coverage",
+  "text.autoconfig.gibbed.option.TEXTURES.goreStainCoverage.@Tooltip": "Percent of each entity's texture covered by gore stains when Stain Gibs With Gore is enabled",
 
   "text.autoconfig.gibbed.option.SOUNDS.playSoundOnGibbed": "Play Sound On Gibbed",
   "text.autoconfig.gibbed.option.SOUNDS.playSoundOnGibbed.@Tooltip": "A custom sound will be played when an entity is gibbed",

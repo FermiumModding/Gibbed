@@ -17,6 +17,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,6 +30,8 @@ public class Gib {
     public final float prepScaleZ;
     public final ResourceLocation baseTexture;
     public final ResourceLocation layerTexture;
+    @Nullable
+    public ResourceLocation stainTexture = null;
     public final float goreScaleU;
     public final float goreScaleV;
     public final float zFightOffset;

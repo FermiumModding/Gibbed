@@ -141,6 +141,13 @@ public class GibbedConfig extends PartitioningSerializer.GlobalData {
 		@ConfigEntry.Gui.Tooltip
 		public boolean layerTextureBlacklistIsWhitelist = false;
 
+		@ConfigEntry.Gui.Tooltip
+		public boolean stainGibsWithGore = true;
+
+		@ConfigEntry.Gui.Tooltip
+		@ConfigEntry.BoundedDiscrete(min = 0, max = 100)
+		public int goreStainCoverage = 20;
+
 		private Textures() {}
 	}
 

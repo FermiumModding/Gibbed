@@ -156,6 +156,9 @@ public abstract class BoneGib<B> extends AbstractGib {
 		if(gib.layerTexture != null) {
 			this.drawVertices(poseStack, buffer, gib.layerTexture, gib, packedLight, alpha);
 		}
+		if(gib.stainTexture != null) {
+			this.drawVertices(poseStack, buffer, gib.stainTexture, gib, packedLight, alpha);
+		}
 
 		poseStack.popPose();
 	}
