@@ -206,6 +206,10 @@ public class AzGib extends AbstractGib {
 			renderGib.bindTexture(entityGib.layerTexture);
 			this.drawVertices(alpha);
 		}
+		if(entityGib.stainTexture != null) {
+			renderGib.bindTexture(entityGib.stainTexture);
+			this.drawVertices(alpha);
+		}
 
 		if(ConfigHandler.TEXTURES.useGoreTextures && entityGib.baseTexture == GibGenerator.GORE_TEXTURE) {
 			GlStateManager.matrixMode(5890);

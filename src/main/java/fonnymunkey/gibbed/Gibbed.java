@@ -9,6 +9,8 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Gibbed.MODID,
      name = Gibbed.NAME,
@@ -21,6 +23,7 @@ public class Gibbed {
     public static final String MODID = "gibbed";
     public static final String VERSION = "1.0.4";
     public static final String NAME = "Gibbed";
+    public static final Logger LOGGER = LogManager.getLogger(NAME);
 
     @Mod.Instance(MODID)
     public static Gibbed INSTANCE;

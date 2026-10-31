@@ -14,6 +14,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class EntityGib extends Entity {
@@ -25,6 +26,8 @@ public class EntityGib extends Entity {
     public float prepScaleZ = 0.0F;
     public ResourceLocation baseTexture = null;
     public ResourceLocation layerTexture = null;
+    @Nullable
+    public ResourceLocation stainTexture = null;
     public float zFightOffset = 0.0001F;
     public int particleType = -1;
     public float particleScale = 0.0F;

@@ -3,6 +3,7 @@ package fonnymunkey.gibbed.client;
 import fonnymunkey.gibbed.client.gib.EntityGib;
 import fonnymunkey.gibbed.client.gib.AbstractGib;
 import fonnymunkey.gibbed.client.gib.GibGenerator;
+import fonnymunkey.gibbed.client.gib.GoreStainGenerator;
 import fonnymunkey.gibbed.client.particle.ParticleHandler;
 import fonnymunkey.gibbed.compat.ModLoadedUtil;
 import fonnymunkey.gibbed.compat.azurelib.AzureLibCompat;
@@ -61,9 +62,11 @@ public class EventHandlerClient {
         if(event.phase != TickEvent.Phase.END) return;
         WorldClient world = Minecraft.getMinecraft().world;
         if(world == null || Minecraft.getMinecraft().player == null) {
+            GoreStainGenerator.releaseUnused(null);
             dyingEntities.clear();
             return;
         }
+        if(world.getTotalWorldTime() % 20 == 0) GoreStainGenerator.releaseUnused(world);
         if(Minecraft.getMinecraft().isGamePaused()) return;
         
         Iterator<Entry<EntityLivingBase,Pair<Boolean, Integer>>> iter = dyingEntities.entrySet().iterator();
@@ -110,10 +113,16 @@ public class EventHandlerClient {
         int index = -1;
         int particleType = ParticleHandler.getBloodParticleType(entity);
         float particleScale = ConfigHandler.PARTICLES.particleAmountScale * Math.max(1.0F, Math.min(20.0F, entity.getMaxHealth() / gibMap.size()));
+        boolean stainGibs = ConfigHandler.shouldGibsBeGoreStained(entity);
+        Map<ResourceLocation,ResourceLocation> stains = new HashMap<>();
         for(Entry<AbstractGib,Triple<float[],ResourceLocation,ResourceLocation>> gibEntry : gibMap.entrySet()) {
             index++;
             if(index == guaranteed || (explosion && ConfigHandler.GENERAL.explosionsSpawnAllGibs) || entity.getRNG().nextFloat() < ConfigHandler.GENERAL.perGibSpawnChance) {
                 EntityGib gib = new EntityGib(world, entity, gibEntry.getKey(), gibEntry.getValue().left, gibEntry.getValue().middle, gibEntry.getValue().right, explosion, particleType, particleScale);
+                if(stainGibs && !gib.baseTexture.equals(GibGenerator.GORE_TEXTURE)) {
+                    if(!stains.containsKey(gib.baseTexture)) stains.put(gib.baseTexture, GoreStainGenerator.create(entity, gib.baseTexture));
+                    gib.stainTexture = stains.get(gib.baseTexture);
+                }
                 world.spawnEntity(gib);
                 if(ConfigHandler.PARTICLES.spawnParticlesOnGibbed) ParticleHandler.spawnGibbedParticle(gib);
             }

@@ -2,6 +2,7 @@ package fonnymunkey.gibbed.config;
 
 import fonnymunkey.gibbed.Gibbed;
 import fonnymunkey.gibbed.client.gib.GibGenerator;
+import fonnymunkey.gibbed.client.gib.GoreStainGenerator;
 import fonnymunkey.gibbed.util.Pair;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -204,6 +205,16 @@ public class ConfigHandler {
 		@Config.Comment("Sets the Entity Layered Texture Blacklist to instead act as a whitelist")
 		@Config.Name("Entity Layered Texture Blacklist is Whitelist")
 		public boolean layerTextureBlacklistIsWhitelist = false;
+
+		@Config.Comment("Overlays random patches of the gore texture on gibs that use the original entity textures" + "\n" +
+				"Entities excluded by the Entity Gore Texture Blacklist are not stained")
+		@Config.Name("Stain Gibs With Gore")
+		public boolean stainGibsWithGore = true;
+
+		@Config.Comment("Percent of each entity's texture covered by gore stains when Stain Gibs With Gore is enabled")
+		@Config.Name("Gore Stain Coverage")
+		@Config.RangeInt(min = 0, max = 100)
+		public int goreStainCoverage = 20;
 	}
 	
 	public static class Sounds {
@@ -293,11 +304,18 @@ public class ConfigHandler {
 	public static boolean shouldGoreTextureBeUsed(EntityLivingBase entity) {
 		if(entity == null || !entity.world.isRemote) return false;
 		if(!TEXTURES.useGoreTextures) return false;
+		return isGoreAllowed(entity);
+	}
+
+	public static boolean shouldGibsBeGoreStained(EntityLivingBase entity) {
+		if(entity == null || !entity.world.isRemote) return false;
+		if(!TEXTURES.stainGibsWithGore || TEXTURES.goreStainCoverage <= 0) return false;
+		return isGoreAllowed(entity);
+	}
+
+	private static boolean isGoreAllowed(EntityLivingBase entity) {
 		if(goreTextureBlacklist == null) createGoreTextureBlacklist();
-		if(goreTextureBlacklist.contains(EntityList.getKey(entity)) == TEXTURES.entityGoreTextureBlacklistIsWhitelist) {
-			return true;
-		}
-		return false;
+		return goreTextureBlacklist.contains(EntityList.getKey(entity)) == TEXTURES.entityGoreTextureBlacklistIsWhitelist;
 	}
 	
 	private static void createGoreTextureBlacklist() {
@@ -363,9 +381,11 @@ public class ConfigHandler {
 				ConfigManager.sync(Gibbed.MODID, Config.Type.INSTANCE);
 				entityGibBlacklist = null;
 				entityGibModidBlacklist = null;
+				goreTextureBlacklist = null;
 				layerTextureBlacklist = null;
 				entityBranchRatioOverrides = null;
 				GibGenerator.resetCache();
+				GoreStainGenerator.resetCache();
 			}
 		}
 	}

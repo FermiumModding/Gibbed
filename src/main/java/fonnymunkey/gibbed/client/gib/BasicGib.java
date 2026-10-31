@@ -197,6 +197,11 @@ public class BasicGib extends AbstractGib {
 			if(this.renderChildren) this.renderer.render(entityGib.scale);
 			else ((IModelRenderer)this.renderer).gibbed$renderSingular(entityGib.scale);
 		}
+		if(entityGib.stainTexture != null) {
+			renderGib.bindTexture(entityGib.stainTexture);
+			if(this.renderChildren) this.renderer.render(entityGib.scale);
+			else ((IModelRenderer)this.renderer).gibbed$renderSingular(entityGib.scale);
+		}
 		
 		this.renderer.offsetX = modelX;
 		this.renderer.offsetY = modelY;

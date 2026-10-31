@@ -179,6 +179,10 @@ public class ObjGib extends AbstractGib {
 			renderGib.bindTexture(entityGib.layerTexture);
 			this.tessellator.renderGroup(this.obj, new Vector4f(scales[4], scales[5], scales[6], scales[7]), new Vector2f(scales[8], scales[9]), null);
 		}
+		if(entityGib.stainTexture != null) {
+			renderGib.bindTexture(entityGib.stainTexture);
+			this.tessellator.renderGroup(this.obj, new Vector4f(scales[4], scales[5], scales[6], scales[7]), new Vector2f(scales[8], scales[9]), null);
+		}
 		
 		if(ConfigHandler.TEXTURES.useGoreTextures && entityGib.baseTexture == GibGenerator.GORE_TEXTURE) {
 			GlStateManager.matrixMode(5890);
