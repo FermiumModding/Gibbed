@@ -24,21 +24,27 @@ public abstract class GibManager {
 
 	public static void clear() {
 		GIBS.clear();
+		GoreStainGenerator.releaseUnused(GIBS);
 	}
 
 	public static void tick(ClientLevel level) {
 		if(level != currentLevel) {
-			GIBS.clear();
+			clear();
 			currentLevel = level;
 		}
 		if(level == null) return;
 
+		boolean removedAny = false;
 		Iterator<Gib> iter = GIBS.iterator();
 		while(iter.hasNext()) {
 			Gib gib = iter.next();
 			if(!gib.isRemoved()) gib.tick(level, GIBS);
-			if(gib.isRemoved()) iter.remove();
+			if(gib.isRemoved()) {
+				iter.remove();
+				removedAny = true;
+			}
 		}
+		if(removedAny) GoreStainGenerator.releaseUnused(GIBS);
 	}
 
 	public static void render(PoseStack poseStack, Camera camera, float partialTicks) {

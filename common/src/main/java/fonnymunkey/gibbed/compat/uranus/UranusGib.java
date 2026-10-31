@@ -75,6 +75,9 @@ public class UranusGib extends AbstractGib {
 		if(gib.layerTexture != null) {
 			this.renderBox(poseStack, buffer, gib.layerTexture, gib, packedLight, alpha);
 		}
+		if(gib.stainTexture != null) {
+			this.renderBox(poseStack, buffer, gib.stainTexture, gib, packedLight, alpha);
+		}
 
 		for(BoxState state : states) {
 			state.restore();

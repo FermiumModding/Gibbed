@@ -5,12 +5,14 @@ import fonnymunkey.gibbed.client.gib.Gib;
 import fonnymunkey.gibbed.client.gib.GibContext;
 import fonnymunkey.gibbed.client.gib.GibGenerator;
 import fonnymunkey.gibbed.client.gib.GibManager;
+import fonnymunkey.gibbed.client.gib.GoreStainGenerator;
 import fonnymunkey.gibbed.client.gib.handler.GibModelHandlers;
 import fonnymunkey.gibbed.client.particle.ParticleHandler;
 import fonnymunkey.gibbed.config.ConfigHandler;
 import fonnymunkey.gibbed.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -108,10 +110,16 @@ public class EventHandlerClient {
         int index = -1;
         int particleType = ParticleHandler.getBloodParticleType(entity);
         float particleScale = (float)ConfigHandler.CONFIG.PARTICLES.particleAmountScale * Math.max(1.0F, Math.min(20.0F, entity.getMaxHealth() / gibMap.size()));
+        boolean stainGibs = ConfigHandler.shouldGibsBeGoreStained(entity);
+        Map<ResourceLocation,ResourceLocation> stains = new HashMap<>();
         for(Entry<AbstractGib,GibContext> gibEntry : gibMap.entrySet()) {
             index++;
             if(index == guaranteed || (explosion && ConfigHandler.CONFIG.GENERAL.explosionsSpawnAllGibs) || entity.getRandom().nextInt(100) < ConfigHandler.CONFIG.GENERAL.perGibSpawnChance) {
                 Gib gib = new Gib(entity, gibEntry.getKey(), gibEntry.getValue(), explosion, particleType, particleScale);
+                if(stainGibs && !gib.baseTexture.equals(GibGenerator.GORE_TEXTURE)) {
+                    if(!stains.containsKey(gib.baseTexture)) stains.put(gib.baseTexture, GoreStainGenerator.create(entity, gib.baseTexture));
+                    gib.stainTexture = stains.get(gib.baseTexture);
+                }
                 GibManager.addGib(gib);
                 if(ConfigHandler.CONFIG.PARTICLES.spawnParticlesOnGibbed) ParticleHandler.spawnGibbedParticle(gib);
             }

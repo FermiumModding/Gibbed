@@ -1,6 +1,7 @@
 package fonnymunkey.gibbed.config;
 
 import fonnymunkey.gibbed.client.gib.GibGenerator;
+import fonnymunkey.gibbed.client.gib.GoreStainGenerator;
 import fonnymunkey.gibbed.util.Pair;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
@@ -48,6 +49,7 @@ public abstract class ConfigHandler {
 		layerTextureBlacklist = null;
 		entityBranchRatioOverrides = null;
 		GibGenerator.resetCache();
+		GoreStainGenerator.resetCache();
 	}
 
 	public static boolean shouldEntityBeGibbed(LivingEntity entity, boolean explosion) {
@@ -80,8 +82,17 @@ public abstract class ConfigHandler {
 	}
 	
 	public static boolean shouldGoreTextureBeUsed(LivingEntity entity) {
-		if(entity == null || !entity.level().isClientSide()) return false;
 		if(!CONFIG.TEXTURES.useGoreTextures) return false;
+		return isGoreAllowed(entity);
+	}
+
+	public static boolean shouldGibsBeGoreStained(LivingEntity entity) {
+		if(!CONFIG.TEXTURES.stainGibsWithGore || CONFIG.TEXTURES.goreStainCoverage <= 0) return false;
+		return isGoreAllowed(entity);
+	}
+
+	private static boolean isGoreAllowed(LivingEntity entity) {
+		if(entity == null || !entity.level().isClientSide()) return false;
 		if(goreTextureBlacklist == null) goreTextureBlacklist = createLocationSet(CONFIG.TEXTURES.entityGoreTextureBlacklist);
 		return goreTextureBlacklist.contains(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType())) == CONFIG.TEXTURES.entityGoreTextureBlacklistIsWhitelist;
 	}
